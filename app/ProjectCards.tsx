@@ -4,7 +4,24 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 
-const ProjectCards = ({ projects }) => {
+interface ProjectData {
+    id: number
+    title: string,
+    technologies: string,
+    description: string,
+    gradient?: string,
+    backgroundImage?: string,
+    overlay?: string,
+    githubUrl?: string,
+    liveUrl?: string,
+    blogUrl?: string,
+}
+
+interface ProjectCardProps {
+    projects: ProjectData[];
+}
+
+const ProjectCards = ({ projects } : ProjectCardProps) => {
     return (
         <div className="w-full h-full overflow-y-auto">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 h-screen">

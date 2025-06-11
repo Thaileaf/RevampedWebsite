@@ -1,5 +1,16 @@
 export const projectsData = [
     {
+        id: 18,
+        title: "Terraforming Ghost Blog into a Single EC2 instance",
+        technologies: "Terraform • AWS EC2 • Linux • Ubuntu • Shell • DNS ",
+        description: "Deploying Ghost blog platform on a single t2.micro EC2 instance with CloudFront CDN within free tier limits",
+        gradient: "bg-gradient-to-br from-violet-600 to-purple-700",
+        backgroundImage: "/projects/ghost.png",
+        overlay: "bg-black bg-opacity-35",
+        githubUrl: "https://github.com/Thaileaf/AWSGhostTerraform?tab=readme-ov-file",
+        blogUrl: "https://blog.lethaison.com/fitting-ghost-blog-into-a-micro-aws-ec2-server/",
+    },
+    {
         id: 13,
         title: "NYU K12 STEM Center Website",
         technologies: "React • Next.js • AWS • Sanity CMS • Javascript • Typescript ",

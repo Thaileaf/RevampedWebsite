@@ -38,7 +38,7 @@ test_build:
 #   script:
 #     - npm install
 #     - node ./specs/start.js ./specs/db-postgres.spec.js
-
+# sawe
 # deploy:
 #   stage: deploy
 #   script: echo "Define your deployment script!"

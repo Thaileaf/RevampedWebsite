@@ -31,8 +31,8 @@ test_build:
 
     script:
         - npm install
-        - next lint
-        - next build
+        - npx next lint
+        - npx next build
 
 # test_db:
 #   script:

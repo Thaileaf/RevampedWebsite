@@ -11,7 +11,7 @@ const AnimatedBox = () => {
     const [showContent, setShowContent] = useState(false);
     const [activeSection, setActiveSection] = useState('');
     const [animationState, setAnimationState] = useState('expanding');
-    const [pendingSection, setPendingSection] = useState('');
+    // const [pendingSection, setPendingSection] = useState('');
     const [showEmailPopup, setShowEmailPopup] = useState(false);
     const [copied, setCopied] = useState(false);
 
@@ -36,7 +36,7 @@ const AnimatedBox = () => {
         if (section === 'projects') {
             setShowContent(false);
             setAnimationState('reversing');
-            setPendingSection(section);
+            // setPendingSection(section);
 
             setTimeout(() => {
                 setAnimationState('reversed');
@@ -52,7 +52,7 @@ const AnimatedBox = () => {
         if (animationState === 'reversed') {
             setShowContent(false);
             setActiveSection('');
-            setPendingSection('');
+            // setPendingSection('');
             setAnimationState('backToMain');
             setTimeout(() => {
                 setShowContent(true);
@@ -263,14 +263,14 @@ const AnimatedBox = () => {
                                     <h2 className="text-2xl font-light mb-4">About Me</h2>
                                     <div className="text-gray-300 space-y-4">
                                         <p>
-                                            I'm a software engineer with hands-on experience in full-stack development,
+                                            {`I'm a software engineer with hands-on experience in full-stack development,
                                             cloud infrastructure, and systems administration. I specialize in building
                                             scalable web applications using modern technologies like React, Next.js, Node,
-                                            and AWS cloud services.
+                                            and AWS cloud services.`}
                                         </p>
                                         <p>
-                                            I'm passionate about cloud technologies, Linux, SRE practices, and building
-                                            reliable systems.
+                                            {`I'm passionate about cloud technologies, Linux, SRE practices, and building
+                                            reliable systems.`}
                                         </p>
                                         <div className="mt-6">
                                             <h3 className="text-lg mb-2">Education</h3>

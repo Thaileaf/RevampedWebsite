@@ -1,4 +1,4 @@
-import Image from "next/image";
+// import Image from "next/image";
 import AnimatedBox from './AnimatedBox';
 
 export default function Home() {

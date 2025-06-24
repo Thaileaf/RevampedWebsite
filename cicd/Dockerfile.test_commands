@@ -1,0 +1,7 @@
+# Purely for testing commands in the environment
+FROM node:latest
+WORKDIR /app
+RUN git clone https://gitlab.com/thaileaf-group/RevampedWebsite.git .
+RUN npm ci
+
+CMD ["/bin/bash"]

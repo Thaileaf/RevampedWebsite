@@ -1,0 +1,29 @@
+version: '3'
+services:
+  sonarqube:
+    image: sonarqube:community
+    ports:
+      - "9000:9000"  
+    healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:9000/api/system/status"]
+        interval: 30s
+        start_period: 30s
+        retries: 5
+        timeout: 10s
+  token-fetch:
+    image: alpine:latest
+    volumes:
+      - token-volume:/shared
+      - ./get_token.sh:/get_token.sh.
+    command: sh /get-token.sh
+  sonar-scanner:
+    image: sonarsource/sonar-scanner-cli
+    volumes: 
+      - ${CI_PROJECT_DIR:-.}:/usr/sr
+        
+    depends_on:
+      sonarqube:
+        condition: service_healthy
+
+
+# app2 can access app1 via: http://app1:9000

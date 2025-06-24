@@ -5,10 +5,19 @@ pipelines using GitLab, Docker and Docker Compose, and a host of Open Source too
 
 My portfolio website is available at [lethaison.com](https://lethaison.com)
 
+
+Repositories:
+
+[GitLab Repository](https://gitlab.com/thaileaf-group/RevampedWebsite) (Where all my pipelines are)
+
+[Github Repository](https://github.com/Thaileaf/RevampedWebsite)
+
+
 ## Technologies
 This list contains technologies that is both currently used,
 as well as will be used in the near future
 - GitLab Pipelines - CI/CD Pipelines
+- Gitlab self hosted runners
 - SonarQube - Static Code Analysis
 - Docker/Docker Compose
 - PlayWright - Integration Testing

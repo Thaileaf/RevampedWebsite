@@ -1,5 +1,17 @@
 export const projectsData = [
     {
+        id: 19,
+        title: "Next JS CI/CD pipeline with load testing and integration testing",
+        technologies: "Gitlab CI/CD • Docker • Docker Compose • Shell • React • NextJS ",
+        description: "Creating a CI/CD pipeline with load testing and integration testing",
+        gradient: "bg-gradient-to-br from-white to-white",
+        backgroundImage: "/projects/gitlab.png",
+        overlay: "bg-black bg-opacity-35",
+        githubUrl: "https://gitlab.com/thaileaf-group/RevampedWebsite",
+        blogUrl: "https://blog.lethaison.com/creating-a-next-js-ci-cd-pipeline-with-load-testing-and-end-to-end-automated-integration-testing/",
+        liveUrl: "https://gitlab.com/thaileaf-group/RevampedWebsite/-/pipelines",
+    },
+    {
         id: 18,
         title: "Terraforming Ghost Blog into a Single EC2 instance",
         technologies: "Terraform • AWS EC2 • Linux • Ubuntu • Shell • DNS ",

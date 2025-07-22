@@ -1,0 +1,15 @@
+FROM sonarsource/sonar-scanner-cli:11.3
+
+USER root
+
+COPY sonar-cli-entrypoint-before.sh /usr/bin/entry-wrapper.sh
+
+RUN chmod +x /usr/bin/entry-wrapper.sh
+
+USER scanner-cli
+
+ENTRYPOINT ["/usr/bin/entry-wrapper.sh"]
+
+CMD ["/usr/bin/entrypoint.sh", "sonar-scanner"]
+
+

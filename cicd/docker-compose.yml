@@ -5,22 +5,28 @@ services:
     ports:
       - "9000:9000"  
     healthcheck:
-        test: ["CMD", "curl", "-f", "http://localhost:9000/api/system/status"]
+        test: ["CMD", "sh", "-c", "curl -f http://localhost:9000/api/system/status | grep -q '\"status\":\"UP\"'"]
         interval: 30s
-        start_period: 30s
+        start_period: 60s
         retries: 5
         timeout: 10s
-  token-fetch:
-    image: alpine:latest
-    volumes:
-      - token-volume:/shared
-      - ./get_token.sh:/get_token.sh.
-    command: sh /get-token.sh
+          # token-fetch:
+          # image: alpine:latest
+          #volumes:
+          #- token-volume:/shared
+          #- ./get_token.sh:/get_token.sh.
+          #command: sh /get-token.sh
   sonar-scanner:
-    image: sonarsource/sonar-scanner-cli
-    volumes: 
-      - ${CI_PROJECT_DIR:-.}:/usr/sr
-        
+    # image: sonarsource/sonar-scanner-cli
+    #
+    build: 
+      context: .
+      dockerfile: Dockerfile.sonar
+    environment:
+      SONAR_HOST_URL: http://sonarqube:9000
+      SONAR_PROJECT_KEY: revamped-website
+    volumes:
+      - ..:/usr/src
     depends_on:
       sonarqube:
         condition: service_healthy

@@ -1,6 +1,0 @@
-projectKey=revamped-website
-serverUrl=http://localhost:9000
-serverVersion=25.6.0.109173
-dashboardUrl=http://localhost:9000/dashboard?id=revamped-website
-ceTaskId=29106403-9a71-4d82-b1ad-bae5f411b0ce
-ceTaskUrl=http://localhost:9000/api/ce/task?id=29106403-9a71-4d82-b1ad-bae5f411b0ce

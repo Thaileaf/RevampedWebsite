@@ -1,28 +1,12 @@
-# This file is a template, and might need editing before it works on your project.
-# You can copy and paste this template into a new `.gitlab-ci.yml` file.
-# You should not add this template to an existing `.gitlab-ci.yml` file by using the `include:` keyword.
-#
-# To contribute improvements to CI/CD templates, please follow the Development guide at:
-# https://docs.gitlab.com/development/cicd/templates/
-# This specific template is located at:
-# https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Nodejs.gitlab-ci.yml
 
-# Official framework image. Look for the different tagged releases at:
-# https://hub.docker.com/r/library/node/tags/
 image: node:latest
 
-# Pick zero or more services to be used on all builds.
-# Only needed when using a docker container to run your tests in.
-# Check out: https://docs.gitlab.com/ee/ci/services/
-# services:
-#   - mysql:latest
-#   - redis:latest
-#   - postgres:latest
+
 stages:
   - build
   - analysis
-# This folder is cached between builds
-# https://docs.gitlab.com/ee/ci/yaml/#cache
+  - megalint
+
 cache:
   paths:
     - node_modules/
@@ -70,7 +54,6 @@ sonar_scan:
       --data 'name=My Token' | \
       grep -oP '"token":"\K[^"]*')
 
-      echo "TOKEN is $SONAR_TOKEN"
 
       if [[ -z $SONAR_TOKEN ]]; then
           echo "No token detected"
@@ -121,13 +104,25 @@ sonar_scan:
   artifacts:
     paths:
       - gl-sast-sonar-report.json
-    when: always # Collect artifact even if the job fails (e.g., quality gate failure)
-# test_db:
-#   script:
-#     - npm install
-#     - node ./specs/start.js ./specs/db-postgres.spec.js
-# sawe
-# deploy:
-#   stage: deploy
-#   script: echo "Define your deployment script!"
-#   environment: production
+    when: always 
+
+
+# MegaLinter GitLab CI job configuration file
+# More info at https://megalinter.io/
+
+mega-linter:
+  stage: megalint
+  # You can override MegaLinter flavor used to have faster performances
+  # More info at https://megalinter.io/flavors/
+  image: oxsecurity/megalinter:v8
+  script: [ "true" ] # if script: ["true"] doesn't work, you may try ->  script: [ "/bin/bash /entrypoint.sh" ]
+  variables:
+    # All available variables are described in documentation
+    # https://megalinter.io/configuration/
+    DEFAULT_WORKSPACE: $CI_PROJECT_DIR
+    # ADD YOUR CUSTOM ENV VARIABLES HERE TO OVERRIDE VALUES OF .mega-linter.yml AT THE ROOT OF YOUR REPOSITORY
+  artifacts:
+    when: always
+    paths:
+      - megalinter-reports
+    expire_in: 1 week

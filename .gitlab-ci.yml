@@ -19,7 +19,8 @@ image: node:latest
 #   - redis:latest
 #   - postgres:latest
 stages:
-    - build
+  - build
+  - analysis
 # This folder is cached between builds
 # https://docs.gitlab.com/ee/ci/yaml/#cache
 cache:
@@ -27,13 +28,54 @@ cache:
     - node_modules/
 
 test_build:
-    stage: build
+  stage: build
 
-    script:
-        - npm install
-        - npx next lint
-        - npx next build
+  script:
+    - npm ci
+    - npx next lint
+    - npx next build
 
+sonar_scan:
+  stage: analysis
+  image: sonarsource/sonar-scanner-cli
+
+  script:
+    - |
+      echo "Waiting for SonarQube service to start..."
+      retries=10
+      interval=20
+      timeout=15
+      count=0
+      while [ $count -lt retries ]; do
+          if curl -f http://sonarqube:9000/api/system/status | grep -q '"status":"UP"'; then
+              echo "Sonar Qube server healthy"
+              break
+          fi
+          
+          echo "Waiting for server to start"
+          sleep $interval
+          count=$((count + 1))
+      done
+
+      echo "Grabbing token from sonarqube"
+      export SONAR_TOKEN=$(curl -v --request POST \
+      --url "http://sonarqube:9000/api/user_tokens/generate" \
+      --user 'admin:admin' \
+      --data 'name=My Token' | \
+      grep -oP '"token":"\K[^"]*')
+
+      echo "TOKEN is $SONAR_TOKEN"
+
+    - |
+      sonar-scanner \
+          -Dsonar.host.url=http://sonarqube:9000 \
+          -Dsonar.login=$SONAR_TOKEN \
+          -Dsonar.projectKey=revamped-website \
+          -Dsonar.projectBaseDir=${CI_PROJECT_DIR}
+
+  services:
+    - name: sonarqube:community
+      alias: sonarqube
 # test_db:
 #   script:
 #     - npm install

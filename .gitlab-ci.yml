@@ -83,9 +83,20 @@ sonar_scan:
           -Dsonar.projectKey=revamped-website \
           -Dsonar.projectBaseDir=${CI_PROJECT_DIR}
 
+    - |
+      echo "Fetching SonarQube issues report..."
+      curl -u "$SONAR_TOKEN:" \
+      "http://sonarqube:9000/api/issues/search?projectKey=$SONAR_PROJECT_KEY" \
+      -o gl-sast-sonar-report.json
+
   services:
     - name: sonarqube:community
       alias: sonarqube
+
+  artifacts:
+    paths:
+      - gl-sast-sonar-report.json
+    when: always # Collect artifact even if the job fails (e.g., quality gate failure)
 # test_db:
 #   script:
 #     - npm install

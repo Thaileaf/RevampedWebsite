@@ -120,7 +120,7 @@ mega-linter:
     # All available variables are described in documentation
     # https://megalinter.io/configuration/
     DEFAULT_WORKSPACE: $CI_PROJECT_DIR
-    # ADD YOUR CUSTOM ENV VARIABLES HERE TO OVERRIDE VALUES OF .mega-linter.yml AT THE ROOT OF YOUR REPOSITORY
+    ADDITIONAL_EXCLUDED_DIRECTORIES: "node_nodules .git public"
   artifacts:
     when: always
     paths:

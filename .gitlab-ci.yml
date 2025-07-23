@@ -84,6 +84,31 @@ sonar_scan:
           -Dsonar.projectBaseDir=${CI_PROJECT_DIR}
 
     - |
+      echo "Waiting for SonarQube to finish processing"
+
+      count=0
+      retries=5
+      timeout=30
+      analysis_complete=false
+      while [[ $count -lt $retries ]]; do
+        if curl -f -u "$SONAR_TOKEN:" "http://sonarqube:9000/api/ce/component?component=revamped-website" | tee /dev/stderr | grep -q '"status":"SUCCESS"'; then
+          echo "Server finished processing"
+          analysis_complete=true
+          break
+        fi
+        count=$((count + 1))
+        echo "Still waiting for analysis"
+        sleep $timeout
+        
+      done
+
+      if [[ "$analysis_complete" = false ]]; then
+        echo "Analysis failed"
+        exit 1
+
+      fi
+
+
       echo "Fetching SonarQube issues report..."
       curl -u "$SONAR_TOKEN:" \
       "http://sonarqube:9000/api/issues/search?projectKey=revamped-website" \

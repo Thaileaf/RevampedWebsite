@@ -46,8 +46,8 @@ sonar_scan:
       interval=20
       timeout=15
       count=0
-      while [ $count -lt retries ]; do
-          if curl -f http://sonarqube:9000/api/system/status | grep -q '"status":"UP"'; then
+      while [ $count -lt retries ]; do 
+          if curl -f http://sonarqube:9000/api/system/status | tee \dev\stderr  | grep -q '"status":"UP"'; then # Tee is to debug
               echo "Sonar Qube server healthy"
               break
           fi
@@ -56,6 +56,12 @@ sonar_scan:
           sleep $interval
           count=$((count + 1))
       done
+      if [ $count -ge retries ]; then
+          echo "Whoopdie doo sonarqube couldnt start sorry"
+          exit 1
+      fi
+
+      sleep 5
 
       echo "Grabbing token from sonarqube"
       export SONAR_TOKEN=$(curl -v --request POST \
@@ -66,10 +72,14 @@ sonar_scan:
 
       echo "TOKEN is $SONAR_TOKEN"
 
+      if [[ -z $SONAR_TOKEN ]]; then
+          echo "No token detected"
+          exit 1
+      fi
+
     - |
       sonar-scanner \
           -Dsonar.host.url=http://sonarqube:9000 \
-          -Dsonar.login=$SONAR_TOKEN \
           -Dsonar.projectKey=revamped-website \
           -Dsonar.projectBaseDir=${CI_PROJECT_DIR}
 

@@ -86,7 +86,7 @@ sonar_scan:
     - |
       echo "Fetching SonarQube issues report..."
       curl -u "$SONAR_TOKEN:" \
-      "http://sonarqube:9000/api/issues/search?projectKey=$SONAR_PROJECT_KEY" \
+      "http://sonarqube:9000/api/issues/search?projectKey=revamped-website" \
       -o gl-sast-sonar-report.json
 
   services:

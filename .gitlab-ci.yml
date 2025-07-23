@@ -46,8 +46,8 @@ sonar_scan:
       interval=20
       timeout=15
       count=0
-      while [ $count -lt retries ]; do 
-          if curl -f http://sonarqube:9000/api/system/status | tee \dev\stderr  | grep -q '"status":"UP"'; then # Tee is to debug
+      while [[ $count -lt $retries ]]; do 
+          if curl -f http://sonarqube:9000/api/system/status | tee /dev/stderr  | grep -q '"status":"UP"'; then # Tee is to debug
               echo "Sonar Qube server healthy"
               break
           fi
@@ -56,7 +56,7 @@ sonar_scan:
           sleep $interval
           count=$((count + 1))
       done
-      if [ $count -ge retries ]; then
+      if [[ $count -ge $retries ]]; then
           echo "Whoopdie doo sonarqube couldnt start sorry"
           exit 1
       fi
